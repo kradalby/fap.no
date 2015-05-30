@@ -17,12 +17,7 @@ func index (c *gin.Context) {
 }
 
 func updateServer(c *gin.Context) {
-    var server struct {
-        Hostname    string
-        Public      string
-        Internal    string
-    }
-
+    var server = Server{}
     c.Bind(&server)
 
 
@@ -48,7 +43,13 @@ func StartGin() {
 
 func StartDB () {
     db, err := gorm.Open("sqlite3", "./db.db")
+
+    if err != nil {
+        panic("Cannot open database")
+    }
+
     db.DB()
     
-    db.Create(&Server)
+    db.Create(&Server{})
+
 }
