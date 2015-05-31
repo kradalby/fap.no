@@ -1,5 +1,5 @@
 PATH  := node_modules/.bin:$(PATH)
-SHELL := /bin/zsh
+SHELL := /bin/bash
 
 build.css: 
 	lessc less/style.less static/css/bundle.css
