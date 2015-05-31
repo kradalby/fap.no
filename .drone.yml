@@ -1,0 +1,7 @@
+image: go1.4
+script:
+    - make build.go
+notify:
+    email:
+        recipients:
+            - kradalby@kradalby.no
