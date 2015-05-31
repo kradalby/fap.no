@@ -1,5 +1,6 @@
 image: go1.2
 script:
+    - make dev
     - make build.go
 notify:
     email:
