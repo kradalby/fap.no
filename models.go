@@ -56,8 +56,6 @@ func (g *G) createOrUpdateServer(server Server) Server {
 
     id := g.getServer(server.Hostname).ID
 
-    log.Println(id)
-
     server.ID = id
 
     err := g.DB.Save(&server)
