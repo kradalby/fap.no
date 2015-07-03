@@ -6,16 +6,15 @@ build.css:
 	autoprefixer static/css/bundle.css
 
 build.js:
-#	browserify js/app.js -o static/js/bundle.js
-	cp js/* static/js/
+	browserify js/app.js -o static/js/bundle.js
 
 build: build.js build.css
 
 watch.css: 
-	nodemon -I -w less/ --ext less --exec 'npm 	run build:css'
+	nodemon -I -w less/ --ext less --exec 'make build.css' &
 
 watch.js:
-	watchify js/app.js -o static/js/bundle.js -v
+	watchify js/app.js -o static/js/bundle.js -v &
 
 watch: watch.css watch.js
 
@@ -25,8 +24,8 @@ jshint:
 dev:
 	npm install
 
-#run: 
-#	go run *.go
+run: watch
+	python3 -m http.server &
 #
 #test: 
 #	go test

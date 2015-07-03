@@ -23,6 +23,7 @@ func (g *G) serverUpdate(c *gin.Context) {
 
     response := g.createOrUpdateServer(server)
 
+    m.Broadcast(response)
     c.JSON(http.StatusOK, response)
 }
 
@@ -32,4 +33,8 @@ func (g *G) serverAll(c *gin.Context) {
     response := g.getAllServers()
 
     c.JSON(http.StatusOK, response)
+}
+
+func (g *G) ws(c *gin.Context) {
+    m.HandleRequest(c.Writer, c.Request)
 }

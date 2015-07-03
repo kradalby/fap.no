@@ -12,4 +12,7 @@ run:
 test: 
 	go test
 
+clean:
+	rm -rf ~/go/pkg
+
 all: run

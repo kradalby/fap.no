@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "description": "fap.no",
   "main": ".",
-  "dependencies": {
+  "devDependencies": {
     "autoprefixer": "^5.2.0",
     "babelify": "^6.1.2",
     "browserify": "^10.2.3",
@@ -14,7 +14,6 @@
     "uglifyify": "^3.0.1",
     "watchify": "^3.2.1"
   },
-  "devDependencies": {},
   "scripts": {
     "test": "."
   },
@@ -26,6 +25,12 @@
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/kradalby/fap.no/issues"
+  },
+  "browserify": {
+    "transform": [
+      "babelify",
+      "uglifyify"
+    ]
   },
   "homepage": "https://github.com/kradalby/fap.no"
 }
