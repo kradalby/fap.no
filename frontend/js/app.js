@@ -4,15 +4,18 @@ var moment = require('moment')
 
 var app = (function () {
 
-    var loc = window.location, wsurl
-    if (loc.protocol === "https:") {
-        wsurl = "wss:"
-    } else {
-        wsurl = "ws:"
-    }
-    wsurl += "//" + loc.host + "/ws"
+    var getWSAddress = function () {
+        var loc = window.location, wsurl
+        if (loc.protocol === "https:") {
+            wsurl = "wss:"
+        } else {
+            wsurl = "ws:"
+        }
+        wsurl += "//" + loc.host + "/ws"
 
-    var socketAddress = wsurl
+        return wsurl
+    }
+
 
     var addOrUpdateServer = function (data) {
         var serversDiv = document.querySelector("#servers")
@@ -42,10 +45,12 @@ var app = (function () {
         if (isAlreadyAdded(data.hostname)) {
             var div = document.querySelector("#" + data.hostname)
             div.innerHTML = createServerHTML(data)
+            div.setAttribute("data-last-updated", data.UpdatedAt)
         } else {
             var div = document.createElement("div")
             div.id = data.hostname
             div.className = "col s12"
+            div.setAttribute("data-last-updated", data.UpdatedAt)
             div.innerHTML = createServerHTML(data)
             serversDiv.appendChild(div)
 
@@ -68,26 +73,41 @@ var app = (function () {
         }
     }
 
+    var sortServers = function () {
+        var serversDiv = document.querySelector("#servers")
+        var serversArray = [].slice.call(serversDiv.children)
+
+        serversDiv.innerHTML = ""
+
+        serversArray.sort(function (a, b) {
+            var aDate = moment(a.getAttribute("data-last-updated"))
+            var bDate = moment(b.getAttribute("data-last-updated"))
+            return aDate.unix() - bDate.unix()
+        }).reverse().forEach(function (element) {
+            serversDiv.appendChild(element)
+        })
+
+    }
+
 
     return {
         init: function () {
-            var socket = new WebSocket(socketAddress)
+            var socket = new WebSocket(getWSAddress())
 
             socket.onmessage = function (event) {
                 var msg = JSON.parse(event.data)
-                console.log(msg)
 
                 console.log(msg.dataType)
                 switch(msg.dataType) {
                     case "init":
-                        console.log(msg.data)
                         for (var i = 0; i < msg.data.length; i++) {
                             addOrUpdateServer(msg.data[i])
                         }
+                        sortServers()
                         break
                     case "server":
-                        console.log(msg.data)
                         addOrUpdateServer(msg.data)
+                        sortServers()
                         break
                 }
 
