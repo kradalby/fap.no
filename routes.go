@@ -12,7 +12,7 @@ func notYetImplemented(c *gin.Context) {
 }
 
 func index (c *gin.Context) {
-    c.String(http.StatusOK, "nothing yet")
+    c.HTML(http.StatusOK, "index.html", gin.H{})
 }
 
 func (g *G) serverUpdate(c *gin.Context) {
@@ -23,7 +23,7 @@ func (g *G) serverUpdate(c *gin.Context) {
 
     response := g.createOrUpdateServer(server)
 
-    m.Broadcast(response)
+    prepareAndDistributeWSData("server", response)
     c.JSON(http.StatusOK, response)
 }
 

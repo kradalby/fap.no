@@ -32,5 +32,8 @@
       "uglifyify"
     ]
   },
-  "homepage": "https://github.com/kradalby/fap.no"
+  "homepage": "https://github.com/kradalby/fap.no",
+  "dependencies": {
+    "moment": "^2.10.3"
+  }
 }

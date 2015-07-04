@@ -6,7 +6,8 @@ import (
 )
 
 
-var m melody.Melody
+var m *melody.Melody
+var g G
 
 func main() {
 	m = melody.New()
@@ -15,22 +16,25 @@ func main() {
 
 func startGin() {
 
-	g := G{}
+	g = G{}
 	g.InitDB()
 	g.InitSchema()
 
 	router := gin.New()
 
-	router.Static("static", "./static")
+	router.LoadHTMLFiles("frontend/index.html")
 
 	router.GET("/", index)
+	router.GET("/ws", g.ws)
+	router.Static("/static", "frontend/static")
 
 	v1 := router.Group("/api/v1")
 	{
 		v1.GET("/server/all", g.serverAll)
 		v1.POST("/server/update", g.serverUpdate)
-		v1.GET("/ws", g.ws)
 	}
+
+	m.HandleConnect(sendAllServersOnConnect)
 
 	router.Run(":7777")
 }
