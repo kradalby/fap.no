@@ -12,7 +12,8 @@
     "less": "^2.5.1",
     "nodemon": "^1.3.7",
     "uglifyify": "^3.0.1",
-    "watchify": "^3.2.1"
+    "watchify": "^3.2.1",
+    "moment": "^2.10.3"
   },
   "scripts": {
     "test": "."
@@ -32,8 +33,5 @@
       "uglifyify"
     ]
   },
-  "homepage": "https://github.com/kradalby/fap.no",
-  "dependencies": {
-    "moment": "^2.10.3"
-  }
+  "homepage": "https://github.com/kradalby/fap.no"
 }
