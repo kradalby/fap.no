@@ -45,11 +45,27 @@ var app = (function () {
         } else {
             var div = document.createElement("div")
             div.id = data.hostname
-            div.className = "col s6"
+            div.className = "col s12"
             div.innerHTML = createServerHTML(data)
             serversDiv.appendChild(div)
+
+            div.children[1].style.display = "none"
+            div.children[0].addEventListener("click", function (e) {
+                hideToggle(div.children[1])
+            })
+
+
         }
 
+
+    }
+
+    var hideToggle = function (element) {
+        if (element.style.display === "none") {
+            element.style.display = "block"
+        } else {
+            element.style.display = "none"
+        }
     }
 
 
