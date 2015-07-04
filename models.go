@@ -29,6 +29,7 @@ func (g *G) InitSchema() {
 type Server struct {
     gorm.Model
     Hostname    string  `json:"hostname"`
+    Domain      string  `json:"domain"`
     Public      string  `json:"public"`
     Internal    string  `json:"internal"`
     OS          string  `json:"os"`

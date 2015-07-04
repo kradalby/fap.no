@@ -31,7 +31,7 @@ var app = (function () {
 
         var createServerHTML = function (data) {
             var lastUpdate = moment(data.UpdatedAt)
-            var html = util.format("<h3>%s</h3>", data.hostname)
+            var html = util.format("<h3>%s<span>.%s</span></h3>", data.hostname, data.domain)
             html += "<table>"
             html += util.format("<tr><td>Last update:</td><td>%s</td></tr>", lastUpdate.format('DD-MM-YYYY HH:mm:ss'))
             html += util.format("<tr><td>Operating system:</td><td>%s</td></tr>", data.os)
@@ -53,14 +53,12 @@ var app = (function () {
             div.setAttribute("data-last-updated", data.UpdatedAt)
             div.innerHTML = createServerHTML(data)
             serversDiv.appendChild(div)
-
-            div.children[1].style.display = "none"
-            div.children[0].addEventListener("click", function (e) {
-                hideToggle(div.children[1])
-            })
-
-
         }
+
+        div.children[1].style.display = "none"
+        div.children[0].addEventListener("click", function (e) {
+            hideToggle(div.children[1])
+        })
 
 
     }
