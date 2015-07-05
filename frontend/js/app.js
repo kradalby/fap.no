@@ -36,11 +36,17 @@ var app = (function () {
     var changePage = function () {
         var serversDiv = document.querySelector("#servers")
         var servicesDiv = document.querySelector("#services")
+        var serversBtn = document.querySelector("#servers-button")
+        var servicesBtn = document.querySelector("#services-button")
 
         if (this.getAttribute("href") == "#servers") {
+            serversBtn.parentNode.className = "active"
+            servicesBtn.parentNode.className = ""
             serversDiv.style.display = "block"
             servicesDiv.style.display = "none"
         } else {
+            serversBtn.parentNode.className = ""
+            servicesBtn.parentNode.className = "active"
             serversDiv.style.display = "none"
             servicesDiv.style.display = "block"
         }
@@ -56,8 +62,9 @@ var app = (function () {
 
             serversBtn.addEventListener("click", changePage)
             servicesBtn.addEventListener("click", changePage)
+            servicesBtn.parentNode.className = "active"
 
-            hideToggle(document.querySelector("#services"))
+            hideToggle(document.querySelector("#servers"))
 
             socket.onmessage = function (event) {
                 var msg = JSON.parse(event.data)
