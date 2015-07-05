@@ -36,11 +36,11 @@ var app = (function () {
             html += '<div class="collapsible-body">'
             html += '<div class="row">'
             html += util.format('<div class="col s4"><p class="attr-title">%s</p><p class="attr-value">%s</p></div>', "Last update:", lastUpdate.format('DD-MM-YYYY HH:mm:ss'))
-            html += util.format('<div class="col s4"><p class="attr-title">%s</p><p class="attr-value">%s</p></div>', "Operating system:", data.os)
+            html += util.format('<div class="col s4"><p class="attr-title">%s</p><p class="attr-value">%s</p></div>', "Public IP:", data.public)
             html += util.format('<div class="col s4"><p class="attr-title">%s</p><p class="attr-value">%s</p></div>', "Internal IP:", data.internal)
             html += '</div>'
             html += '<div class="row">'
-            html += util.format('<div class="col s4"><p class="attr-title">%s</p><p class="attr-value">%s</p></div>', "Public IP:", data.public)
+            html += util.format('<div class="col s4"><p class="attr-title">%s</p><p class="attr-value">%s</p></div>', "Operating system:", data.os)
             html += util.format('<div class="col s4"><p class="attr-title">%s</p><p class="attr-value">%s</p></div>', "Uptime:", data.uptime)
             html += util.format('<div class="col s4"><p class="attr-title">%s</p><p class="attr-value">%s</p></div>', "Load:", data.load)
             html += '</div>'
