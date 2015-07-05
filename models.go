@@ -34,6 +34,7 @@ type Server struct {
     Internal    string  `json:"internal"`
     OS          string  `json:"os"`
     Uptime      string  `json:"uptime"`
+    Load        string  `json:"load"`
 }
 
 func (g *G) getAllServers() []Server {

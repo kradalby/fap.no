@@ -31,13 +31,14 @@ var app = (function () {
 
         var createServerHTML = function (data) {
             var lastUpdate = moment(data.UpdatedAt)
-            var html = util.format("<h3>%s<span>.%s</span></h3>", data.hostname, data.domain)
+            var html = util.format("<h4>%s<span>.%s</span></h4>", data.hostname, data.domain)
             html += "<table>"
             html += util.format("<tr><td>Last update:</td><td>%s</td></tr>", lastUpdate.format('DD-MM-YYYY HH:mm:ss'))
             html += util.format("<tr><td>Operating system:</td><td>%s</td></tr>", data.os)
             html += util.format("<tr><td>Internal IP:</td><td>%s</td></tr>", data.internal)
             html += util.format("<tr><td>Public IP:</td><td>%s</td></tr>", data.public)
             html += util.format("<tr><td>Uptime:</td><td>%s</td></tr>", data.uptime)
+            html += util.format("<tr><td>Load:</td><td>%s</td></tr>", data.load)
             html += "</table>"
             return html
         }
@@ -115,4 +116,4 @@ var app = (function () {
 
 })()
 
-app.init()
+//app.init()
