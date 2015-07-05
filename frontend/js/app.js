@@ -19,10 +19,11 @@ var app = (function () {
 
     var addOrUpdateServer = function (data) {
         var serversDiv = document.querySelector("#servers")
+        var serversUl = serversDiv.children[0].children[0]
 
         var isAlreadyAdded = function (hostname) {
-            for (var i = 0; i < serversDiv.children.length; i++) {
-                if (serversDiv.children[i].id === hostname) {
+            for (var i = 0; i < serversUl.length; i++) {
+                if (serversUl[i].id === hostname) {
                     return true
                 }
             }
@@ -31,35 +32,38 @@ var app = (function () {
 
         var createServerHTML = function (data) {
             var lastUpdate = moment(data.UpdatedAt)
-            var html = util.format("<h4>%s<span>.%s</span></h4>", data.hostname, data.domain)
-            html += "<table>"
-            html += util.format("<tr><td>Last update:</td><td>%s</td></tr>", lastUpdate.format('DD-MM-YYYY HH:mm:ss'))
-            html += util.format("<tr><td>Operating system:</td><td>%s</td></tr>", data.os)
-            html += util.format("<tr><td>Internal IP:</td><td>%s</td></tr>", data.internal)
-            html += util.format("<tr><td>Public IP:</td><td>%s</td></tr>", data.public)
-            html += util.format("<tr><td>Uptime:</td><td>%s</td></tr>", data.uptime)
-            html += util.format("<tr><td>Load:</td><td>%s</td></tr>", data.load)
-            html += "</table>"
+            var html = util.format('<div class="collapsible-header">%s<span>.%s</span></div>', data.hostname, data.domain)
+            html += '<div class="collapsible-body">'
+            html += '<div class="row">'
+            html += util.format('<div class="col s3"><p class="attr-title">%s</p><p class="attr-value">%s</p></div>', "Last update:", lastUpdate.format('DD-MM-YYYY HH:mm:ss'))
+            html += util.format('<div class="col s3"><p class="attr-title">%s</p><p class="attr-value">%s</p></div>', "Operating system:", data.os)
+            html += util.format('<div class="col s3"><p class="attr-title">%s</p><p class="attr-value">%s</p></div>', "Internal IP:", data.internal)
+            html += '</div>'
+            html += '<div class="row">'
+            html += util.format('<div class="col s3"><p class="attr-title">%s</p><p class="attr-value">%s</p></div>', "Public IP:", data.public)
+            html += util.format('<div class="col s3"><p class="attr-title">%s</p><p class="attr-value">%s</p></div>', "Uptime:", data.uptime)
+            html += util.format('<div class="col s3"><p class="attr-title">%s</p><p class="attr-value">%s</p></div>', "Load:", data.load)
+            html += '</div>'
+            html += "</div>"
             return html
         }
 
         if (isAlreadyAdded(data.hostname)) {
-            var div = document.querySelector("#" + data.hostname)
-            div.innerHTML = createServerHTML(data)
-            div.setAttribute("data-last-updated", data.UpdatedAt)
+            var li = document.querySelector("#" + data.hostname)
+            li.innerHTML = createServerHTML(data)
+            li.setAttribute("data-last-updated", data.UpdatedAt)
         } else {
-            var div = document.createElement("div")
-            div.id = data.hostname
-            div.className = "col s12"
-            div.setAttribute("data-last-updated", data.UpdatedAt)
-            div.innerHTML = createServerHTML(data)
-            serversDiv.appendChild(div)
+            var li = document.createElement("li")
+            li.id = data.hostname
+            li.setAttribute("data-last-updated", data.UpdatedAt)
+            li.innerHTML = createServerHTML(data)
+            serversUl.appendChild(li)
         }
 
-        div.children[1].style.display = "none"
-        div.children[0].addEventListener("click", function (e) {
-            hideToggle(div.children[1])
-        })
+        //div.children[1].style.display = "none"
+        //div.children[0].addEventListener("click", function (e) {
+        //    hideToggle(div.children[1])
+        //})
 
 
     }
@@ -74,18 +78,25 @@ var app = (function () {
 
     var sortServers = function () {
         var serversDiv = document.querySelector("#servers")
-        var serversArray = [].slice.call(serversDiv.children)
+        var serversUl = serversDiv.children[0].children[0]
+        var serversArray = [].slice.call(serversUl.children)
 
-        serversDiv.innerHTML = ""
+        serversUl.innerHTML = ""
 
         serversArray.sort(function (a, b) {
             var aDate = moment(a.getAttribute("data-last-updated"))
             var bDate = moment(b.getAttribute("data-last-updated"))
             return aDate.unix() - bDate.unix()
         }).reverse().forEach(function (element) {
-            serversDiv.appendChild(element)
+            serversUl.appendChild(element)
         })
 
+    }
+
+    var updateCollapsible = function () {
+        $('.collapsible').collapsible({
+            accordion : false // A setting that changes the collapsible behavior to expandable instead of the default accordion style
+        });
     }
 
 
@@ -103,10 +114,12 @@ var app = (function () {
                             addOrUpdateServer(msg.data[i])
                         }
                         sortServers()
+                        updateCollapsible()
                         break
                     case "server":
                         addOrUpdateServer(msg.data)
                         sortServers()
+                        updateCollapsible()
                         break
                 }
 
@@ -116,4 +129,4 @@ var app = (function () {
 
 })()
 
-//app.init()
+app.init()
